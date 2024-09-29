@@ -229,3 +229,4 @@ AppPackages/
 *.out
 *.app
 *.vsidx
+*.suo
