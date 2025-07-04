@@ -1,57 +1,54 @@
 ﻿using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 
-namespace Server
+namespace ServerCore
 {
     class Program
     {
-        static void MainThread(object? state)
+        static Listener _listner = new Listener();
+
+        static void OnAcceptHandler(Socket clientSocket)
         {
-            for (int i = 0; i < 5; i++)
-                Console.WriteLine("Hello Thread");
+            try
+            {
+                // 받는다
+                byte[] recvBuff = new byte[1024];
+                int recvBytes = clientSocket.Receive(recvBuff);
+                string recvData = Encoding.UTF8.GetString(recvBuff, 0, recvBytes);
+                Console.WriteLine($"[From Client] {recvData}");
+
+                // 보낸다
+                byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to MMORPG Server !");
+                clientSocket.Send(sendBuff);
+
+                // 쫒아낸다.
+                clientSocket.Shutdown(SocketShutdown.Both);
+                clientSocket.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
         }
 
         static void Main(string[] args)
         {
-            ThreadPool.SetMinThreads(1, 1);
-            ThreadPool.SetMaxThreads(5, 5);
+            // DNS (Domain Name System)
+            string host = Dns.GetHostName();
+            IPHostEntry ipHost = Dns.GetHostEntry(host);
+            IPAddress ipAddr = ipHost.AddressList[0];
+            IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
-            for (int i = 0; i < 5; i++)
-            {
-                Task task = new Task(() => { while (true) ; }/*, TaskCreationOptions.LongRunning*/);
-                task.Start();
-            }
-
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    ThreadPool.QueueUserWorkItem((obj) =>
-            //    {
-            //        while (true)
-            //        {
-
-            //        }
-            //    });
-            //}
-
-            ThreadPool.QueueUserWorkItem(MainThread);
-
-            //for (int i = 0; i < 1000; ++i)
-            //{
-            //    Thread t = new Thread(MainThread);
-            //    t.Name = "Test Thread";
-            //    t.IsBackground = true;
-            //    t.Start();
-
-            //}
-
-            //Console.WriteLine("Wait");
-
-            //t.Join();
-            //Console.WriteLine("Hello world");
+            _listner.Init(endPoint, OnAcceptHandler);
+            Console.WriteLine("Listening...");
 
             while (true)
             {
-
+                ;
             }
+
         }
     }
 }
