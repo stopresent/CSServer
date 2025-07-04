@@ -35,8 +35,8 @@ namespace ServerCore
         {
             args.AcceptSocket = null;
 
-            bool pendding = _listenSocket.AcceptAsync(args);
-            if (pendding == false)
+            bool pending = _listenSocket.AcceptAsync(args);
+            if (pending == false)
                 OnAcceptCompleted(null, args);
         }
 

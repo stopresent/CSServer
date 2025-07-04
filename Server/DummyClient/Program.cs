@@ -26,9 +26,12 @@ namespace DummyClient
                     socket.Connect(endPoint);
                     Console.WriteLine($"Connect to {socket.RemoteEndPoint?.ToString()}");
 
-                    // 보낸다
-                    byte[] sendBuff = Encoding.UTF8.GetBytes("Hello MMORPG Server !");
-                    socket.Send(sendBuff);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        // 보낸다
+                        byte[] sendBuff = Encoding.UTF8.GetBytes($"Hello MMORPG Server ! {i}");
+                        socket.Send(sendBuff);
+                    }
 
                     // 받는다
                     byte[] recvBuff = new byte[1024];
