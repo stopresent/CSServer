@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServerCore
 {
-    abstract class Session
+    public abstract class Session
     {
         Socket _socket;
         int _disconnected = 0; // 0: 연결, 1: 연결 해제

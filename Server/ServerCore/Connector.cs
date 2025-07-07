@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServerCore
 {
-    internal class Connector
+    public class Connector
     {
         Func<Session> _sessionFactory;
         public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory)
@@ -20,6 +20,8 @@ namespace ServerCore
             args.Completed += OnConnectCompleted;
             args.RemoteEndPoint = endPoint;
             args.UserToken = socket;
+
+            RegisterConnect(args);
         }
 
         public void RegisterConnect(SocketAsyncEventArgs args)
