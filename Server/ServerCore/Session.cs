@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServerCore
 {
-    public abstract class  PacketSession : Session
+    public abstract class PacketSession : Session
     {
         public static readonly int HeaderSize = 2;
         public sealed override int OnRecv(ArraySegment<byte> buffer)
