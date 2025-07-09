@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PDL>
 	<packet name = "PlayerInfoReq">
-		<long name = "PlayerId"/>
+		<long name = "playerId"/>
 		<string name = "name"/>
 		<list name = "skill">
 			<int name = "id"/>
