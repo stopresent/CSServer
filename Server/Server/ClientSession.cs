@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using static Server.PlayerInfoReq;
 
 namespace Server
 {
@@ -48,33 +47,7 @@ namespace Server
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)
         {
-            int count = 0;
-            int size = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
-            count += 2;
-            int id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
-            count += 2;
-
-            switch ((PacketId)id)
-            {
-                case PacketId.PlayerInfoReq:
-                    {
-                        PlayerInfoReq p = new PlayerInfoReq();
-                        p.Read(buffer);
-
-                        count += 8;
-                        Console.WriteLine($"PlayerInfoReq : {p.playerId} {p.name}");
-
-                        foreach (PlayerInfoReq.Skill skill in p.skills)
-                        {
-                            Console.WriteLine($"Player Skill = skill id : {skill.id}, skill level : {skill.level}, skill duration : {skill.duration}");
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            Console.WriteLine($"Packet id : {id}, Packet size : {size}");
+            PacketManager.Instance.OnRecvPacket(this, buffer);
         }
 
         public override void OnSend(int numOfBytes)
