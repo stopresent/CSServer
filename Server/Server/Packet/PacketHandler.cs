@@ -1,4 +1,5 @@
-﻿using ServerCore;
+﻿using Server;
+using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +8,21 @@ using System.Threading.Tasks;
 
 public class PacketHandler
 {
-    public static void C_PlayerInfoReqHandler(PacketSession session, IPacket packet)
+    public static void C_ChatHandler(PacketSession session, IPacket packet)
     {
-        C_PlayerInfoReq p = packet as C_PlayerInfoReq;
+        C_Chat chatPacket = packet as C_Chat;
+        ClientSession clientSession = session as ClientSession;
 
-        Console.WriteLine($"PlayerInfoReq : {p.playerId} {p.name}");
-
-        foreach (C_PlayerInfoReq.Skill skill in p.skills)
+        if (clientSession.Room == null)
         {
-            Console.WriteLine($"Player Skill = skill id : {skill.id}, skill level : {skill.level}, skill duration : {skill.duration}");
+            Console.WriteLine("Room is null");
+            return;
         }
+
+        clientSession.Room.Broadcast(clientSession, chatPacket.chat);
+
+        Console.WriteLine($"C_Chat : {chatPacket.Protocol} {chatPacket.chat}");
+
     }
 
 }
