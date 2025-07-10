@@ -11,8 +11,6 @@ namespace Server
         public static GameRoom Room = new GameRoom();
         static void Main(string[] args)
         {
-            PacketManager.Instance.Register();
-
             // DNS (Domain Name System)
             string host = Dns.GetHostName();
             IPHostEntry ipHost = Dns.GetHostEntry(host);
@@ -20,8 +18,7 @@ namespace Server
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
             _listner.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
-            Console.WriteLine("Listening...");
-
+            
             while (true)
             {
                 ;

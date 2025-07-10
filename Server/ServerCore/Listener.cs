@@ -15,6 +15,8 @@ namespace ServerCore
 
         public void Init(IPEndPoint endPoint, Func<Session> sessionFactory)
         {
+            Console.WriteLine("Listening...");
+
             // 문지기
             _listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             _sessionFactory += sessionFactory;

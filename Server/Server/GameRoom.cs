@@ -34,7 +34,7 @@ namespace Server
         {
             S_Chat chatPacket = new S_Chat();
             chatPacket.playerId = session.SessionId;
-            chatPacket.chat = chat;
+            chatPacket.chat = $"{chat} I am {session.SessionId}";
             ArraySegment<byte> segment = chatPacket.Write();
 
             lock (_lock)

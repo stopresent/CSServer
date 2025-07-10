@@ -21,7 +21,7 @@ public class PacketHandler
 
         clientSession.Room.Broadcast(clientSession, chatPacket.chat);
 
-        Console.WriteLine($"C_Chat : {chatPacket.Protocol} {chatPacket.chat}");
+        //Console.WriteLine($"C_Chat : {chatPacket.Protocol} {chatPacket.chat}");
 
     }
 
