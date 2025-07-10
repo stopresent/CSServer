@@ -7,37 +7,6 @@ using ServerCore;
 
 namespace DummyClient
 {
-    class GameSession : Session
-    {
-        public override void OnConnected(EndPoint endPoint)
-        {
-            Console.WriteLine($"OnConnected : {endPoint}");
-
-
-            for (int i = 0; i < 5; i++)
-            {
-                // 보낸다
-                byte[] sendBuff = Encoding.UTF8.GetBytes($"Hello MMORPG Server ! {i}");
-                Send(sendBuff);
-            }
-        }
-
-        public override void OnDisconnected(EndPoint endPoint)
-        {
-            Console.WriteLine($"OnDisconnected : {endPoint}");
-        }
-
-        public override void OnRecv(ArraySegment<byte> buffer)
-        {
-            string recvData = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
-            Console.WriteLine($"[From Server] {recvData}");
-        }
-
-        public override void OnSend(int numOfBytes)
-        {
-            Console.WriteLine($"Transferred bytes : {numOfBytes}");
-        }
-    }
     class Program
     {
         static void Main(string[] args)
@@ -49,7 +18,7 @@ namespace DummyClient
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
             Connector connector = new Connector();
-            connector.Connect(endPoint, () => { return new GameSession(); });
+            connector.Connect(endPoint, () => { return new ServerSession(); });
 
             while (true)
             {
