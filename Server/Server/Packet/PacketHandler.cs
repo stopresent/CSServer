@@ -19,10 +19,11 @@ public class PacketHandler
             return;
         }
 
-        clientSession.Room.Broadcast(clientSession, chatPacket.chat);
-
+        GameRoom room = clientSession.Room;
+        room.Push(
+            () => room.Broadcast(clientSession, chatPacket.chat)
+            );
+        
         //Console.WriteLine($"C_Chat : {chatPacket.Protocol} {chatPacket.chat}");
-
     }
-
 }
